@@ -44,8 +44,28 @@ const Header = () => {
     }
   };
 
+  const headerBox = useRef(null);
+  const prevScrollPosition = useRef(0)
+
+  const handleScroll = () => {
+    headerBox.current.style.transition = "transform 0.3s ease-in-out 0s";
+    if (window.scrollY > "64" && window.scrollY - prevScrollPosition.current > 0) {
+      headerBox.current.style.transform = "translate(0px, -200px)";
+    }
+    else {
+      headerBox.current.style.transform = "translate(0px, 0px)";
+    }
+    prevScrollPosition.current = window.scrollY;
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
+
   return (
     <Box
+      ref={headerBox}
       position="fixed"
       top={0}
       left={0}
